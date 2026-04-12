@@ -20,22 +20,28 @@ const PORT = process.env.PORT || 5000;
 
 const __dirname = path.resolve();
 
-app.use(express.json({ limit: "10mb" })); // allows you to parse the body of the request
+
+// ✅ MOVE CORS HERE (VERY IMPORTANT)
+app.use(cors({
+  origin: [
+    "http://localhost:5173",
+    "https://mern-stack-e-commerce-website-vuok-cyjtd7gxy.vercel.app"
+  ],
+  credentials: true,
+}));
+
+app.options("*", cors());
+
+
+// THEN OTHER MIDDLEWARE
+app.use(express.json({ limit: "10mb" }));
 app.use(cookieParser());
 
-app.use(cors({
-	origin: [
-	  "http://localhost:5173",
-	  "https://mern-stack-e-commerce-website-vuok-cyjtd7gxy.vercel.app"
-	],
-	credentials: true,
-  }));
 
-  app.options("*", cors());
-
+// ROUTES
 app.get("/", (req, res) => {
-	res.send("Backend is working 🚀");
-  });
+  res.send("Backend is working 🚀");
+});
 
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
@@ -44,15 +50,17 @@ app.use("/api/coupons", couponRoutes);
 app.use("/api/payments", paymentRoutes);
 app.use("/api/analytics", analyticsRoutes);
 
-if (process.env.NODE_ENV === "production") {
-	app.use(express.static(path.join(__dirname, "/frontend/dist")));
 
-	app.get("*", (req, res) => {
-		res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
-	});
+// PRODUCTION
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "/frontend/dist"));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
+  });
 }
 
 app.listen(PORT, () => {
-	console.log("Server is running on https://mernstack-e-commerce-website-2.onrender.com/" + PORT);
-	connectDB();
+  console.log("Server is running on port " + PORT);
+  connectDB();
 });
