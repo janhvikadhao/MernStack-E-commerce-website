@@ -42,6 +42,6 @@ if (process.env.NODE_ENV === "production") {
 }
 
 app.listen(PORT, () => {
-	console.log("Server is running on http://localhost:" + PORT);
+	console.log("Server is running on https://mernstack-e-commerce-website-2.onrender.com/" + PORT);
 	connectDB();
 });
