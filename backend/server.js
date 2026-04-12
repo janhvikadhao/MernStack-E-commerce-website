@@ -24,7 +24,7 @@ app.use(express.json({ limit: "10mb" })); // allows you to parse the body of the
 app.use(cookieParser());
 
 app.use(cors({
-	origin: "https://mern-stack-e-commerce-website-vuok-cyjtd7gxy.vercel.app",
+	origin: "https://mern-stack-e-commerce-website-vuok-cyjtd7gxy.vercel.app/",
 	credentials: true
   }));
 app.get("/", (req, res) => {
